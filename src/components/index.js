@@ -330,7 +330,7 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
-<hr className="border-white-700 max-w-9xl mx-auto shadow-md shadow-white-800" />
+<hr className="border-white-700 max-w-7xl mx-auto shadow-md shadow-white-800" />
         {/* Projects Section */}
     <div className="flex-grow" id='projects'>
         <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
@@ -402,7 +402,7 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
-<hr className="border-white-700 max-w-6xl mx-auto shadow-md shadow-white-800" />
+<hr className="border-white-700 max-w-3xl mx-auto shadow-md shadow-white-800 " />
         {/* Contact Page Content */}
       <div className="flex-grow relative z-1 pt-20" id='contact'>
         <div className="max-w-7xl mx-auto px-6 py-0">
