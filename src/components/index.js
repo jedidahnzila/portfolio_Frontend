@@ -129,7 +129,7 @@ const Portfolio = () => {
 
       {/* Navigation */}
        <nav className="bg-slate-900/95 text-white py-4 px-6 fixed w-full z-50">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
+        <div className="max-w-9xl mx-auto flex justify-between items-center">
           <div className="text-xl font-bold">Portfolio</div>
           <div className="space-x-6">
             {['home', 'about', 'projects', 'contact'].map((section) => (
@@ -151,7 +151,7 @@ const Portfolio = () => {
       <div className="flex-grow pt-16 relative z-10" id='home'>
          {/* Hero Section */}
       <div className="flex-grow pt-20 relative z-1">
-        <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="flex flex-col md:flex-row items-center gap-12">
             {/* Profile Image */}
             <div className="relative w-64 h-64 mx-auto rounded-full overflow-hidden shadow-lg bg-gradient-to-br from-gray-900 to-transparent">
@@ -217,15 +217,16 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
+         <hr className="border-white-700 max-w-6xl mx-auto shadow-md shadow-white-800" />
          {/* Main Content */}
       <div className="flex-grow relative z-1" id="about">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Animated About Section */}
           <div className="text-center mb-16">
             <h1 className="text-5xl font-bold mb-4 text-white animate-gradient">
               About Me
             </h1>
-            <p className="text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed animate-text-slide">
+            <p className="text-xl text-gray-200 max-w-6xl mx-auto leading-relaxed animate-text-slide">
               I'm a passionate Full Stack Developer with expertise in both frontend and backend technologies.
               My journey in web development has equipped me with a strong foundation in creating responsive,
               user-friendly applications with robust backend systems.
@@ -329,10 +330,10 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
-
+<hr className="border-white-700 max-w-9xl mx-auto shadow-md shadow-white-800" />
         {/* Projects Section */}
     <div className="flex-grow" id='projects'>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h1 className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 animate-bounce">
             My Projects
           </h1>
@@ -401,10 +402,10 @@ const Portfolio = () => {
           </div>
         </div>
       </div>
-
+<hr className="border-white-700 max-w-6xl mx-auto shadow-md shadow-white-800" />
         {/* Contact Page Content */}
       <div className="flex-grow relative z-1 pt-20" id='contact'>
-        <div className="max-w-4xl mx-auto px-6 py-16">
+        <div className="max-w-7xl mx-auto px-6 py-0">
           <div className="text-center mb-12 opacity-0 animate-fade-up">
             <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
             <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
@@ -475,7 +476,7 @@ const Portfolio = () => {
 
       {/* Footer */}
       <footer className="bg-slate-900/95 text-white py-8 relative z-10">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-9xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm">© 2025 Jedidah Nzila. All rights reserved.</div>
             <div className="flex gap-6">
