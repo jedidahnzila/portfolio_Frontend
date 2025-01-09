@@ -33,6 +33,42 @@ const Portfolio = () => {
     }
   }, [index]);
 
+  // Scroll handling
+  const scrollToSection = (sectionId) => {
+    setActiveSection(sectionId);
+    const section = document.getElementById(sectionId);
+    if (section) {
+      const navHeight = 64; // Height of the fixed navbar
+      const sectionPosition = section.offsetTop - navHeight;
+      window.scrollTo({
+        top: sectionPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Intersection Observer for active section
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        rootMargin: '-50% 0px -50% 0px'
+      }
+    );
+
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach(section => observer.observe(section));
+
+    return () => sections.forEach(section => observer.unobserve(section));
+  }, []);
+
+
   const skills = {
     frontend: [
       { name: 'React', level: 'Advanced', icon: '⚛️', color: 'from-sky-400/60 to-blue-400/60' },
@@ -72,11 +108,11 @@ const Portfolio = () => {
     console.log('Form submitted:', formState);
   };
 
-  const scrollToSection = (sectionId) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // const scrollToSection = (sectionId) => {
+  //   setActiveSection(sectionId);
+  //   const element = document.getElementById(sectionId);
+  //   element?.scrollIntoView({ behavior: 'smooth' });
+  // };
 
   return (
     <div className="min-h-screen flex flex-col relative">
@@ -92,7 +128,7 @@ const Portfolio = () => {
 </div>
 
       {/* Navigation */}
-      <nav className="bg-slate-900/95 text-white py-4 px-6 fixed w-full z-50">
+       <nav className="bg-slate-900/95 text-white py-4 px-6 fixed w-full z-50">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="text-xl font-bold">Portfolio</div>
           <div className="space-x-6">
@@ -112,9 +148,9 @@ const Portfolio = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-grow pt-16 relative z-10">
+      <div className="flex-grow pt-16 relative z-10" id='home'>
          {/* Hero Section */}
-      <main className="flex-grow pt-20 relative z-1">
+      <div className="flex-grow pt-20 relative z-1">
         <div className="max-w-6xl mx-auto px-6 py-16">
           <div className="flex flex-col md:flex-row items-center gap-12">
             {/* Profile Image */}
@@ -180,9 +216,9 @@ const Portfolio = () => {
             </div>
           </div>
         </div>
-      </main>
+      </div>
          {/* Main Content */}
-      <div className="flex-grow relative z-1">
+      <div className="flex-grow relative z-1" id="about">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           {/* Animated About Section */}
           <div className="text-center mb-16">
@@ -295,7 +331,7 @@ const Portfolio = () => {
       </div>
 
         {/* Projects Section */}
-    <div className="flex-grow">
+    <div className="flex-grow" id='projects'>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <h1 className="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 animate-bounce">
             My Projects
@@ -367,7 +403,7 @@ const Portfolio = () => {
       </div>
 
         {/* Contact Page Content */}
-      <main className="flex-grow relative z-1 pt-20">
+      <div className="flex-grow relative z-1 pt-20" id='contact'>
         <div className="max-w-4xl mx-auto px-6 py-16">
           <div className="text-center mb-12 opacity-0 animate-fade-up">
             <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
@@ -434,8 +470,8 @@ const Portfolio = () => {
             </div>
           </form>
         </div>
-      </main>
-      </main>
+      </div>
+      </div>
 
       {/* Footer */}
       <footer className="bg-slate-900/95 text-white py-8 relative z-10">
