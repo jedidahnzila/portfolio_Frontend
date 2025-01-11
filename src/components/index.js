@@ -4,6 +4,7 @@ import backgroundimage from '../assets/backgroundimage.avif';
 import profilepic from '../assets/myprofilepic_enhanced-Photoroom.png';
 import ecommercewebimage from '../assets/ecommerceweb.png';
 import admindashboardimage from '../assets/admindashboard.png'
+import ContactForm  from './ContactForm';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -403,8 +404,10 @@ const Portfolio = () => {
         </div>
       </div>
 <hr className="border-white-700 max-w-3xl mx-auto shadow-md shadow-white-800 " />
+{/* contactform section */}
+<ContactForm></ContactForm>
         {/* Contact Page Content */}
-      <div className="flex-grow relative z-1 pt-20" id='contact'>
+      {/* <div className="flex-grow relative z-1 pt-20" id='contact'>
         <div className="max-w-7xl mx-auto px-6 py-0">
           <div className="text-center mb-12 opacity-0 animate-fade-up">
             <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
@@ -472,7 +475,7 @@ const Portfolio = () => {
           </form>
         </div>
       </div>
-      </div>
+      </div> */}
 
       {/* Footer */}
       <footer className="bg-slate-900/95 text-white py-8 relative z-10">
@@ -629,6 +632,7 @@ const Portfolio = () => {
           animation-delay: 400ms;
         }
       `}</style>
+    </div>
     </div>
   );
 };
