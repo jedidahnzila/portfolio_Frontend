@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Github, Linkedin, Mail, Globe } from 'lucide-react';
+import { Download, Github, Linkedin, Mail,  Globe } from 'lucide-react';
 import backgroundimage from '../assets/backgroundimage.avif';
 import profilepic from '../assets/myprofilepic_enhanced-Photoroom.png';
 import ecommercewebimage from '../assets/ecommerceweb.png';
