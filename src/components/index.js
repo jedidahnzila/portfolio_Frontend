@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Github, Linkedin, Mail, Send, Globe } from 'lucide-react';
+import { Download, Github, Linkedin, Mail, Globe } from 'lucide-react';
 import backgroundimage from '../assets/backgroundimage.avif';
 import profilepic from '../assets/myprofilepic_enhanced-Photoroom.png';
 import ecommercewebimage from '../assets/ecommerceweb.png';
@@ -8,17 +8,17 @@ import ContactForm  from './ContactForm';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const handleChange = (e) => {
-    setFormState({
-      ...formState,
-      [e.target.id]: e.target.value
-    });
-  };
+  // const [formState, setFormState] = useState({
+  //   name: '',
+  //   email: '',
+  //   message: ''
+  // });
+  // const handleChange = (e) => {
+  //   setFormState({
+  //     ...formState,
+  //     [e.target.id]: e.target.value
+  //   });
+  // };
   
   const fullText = "A dedicated full-stack engineer with a passion for creating dynamic and efficient web applications. With expertise in frontend technologies like React and Tailwind CSS, coupled with backend skills in Node.js and database management, I bring ideas to life through clean, scalable code.";
   const [displayText, setDisplayText] = useState('');
@@ -104,10 +104,10 @@ const Portfolio = () => {
   },
 ];
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formState);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log('Form submitted:', formState);
+  // };
 
   // const scrollToSection = (sectionId) => {
   //   setActiveSection(sectionId);
