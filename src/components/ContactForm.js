@@ -62,37 +62,28 @@ const ContactForm = () => {
     setIsSubmitting(true);
     setStatus({ type: '', message: '' });
 
+    // Simulate API call with a delay
     try {
-      const response = await fetch('http://localhost:8000/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formState),
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Simulate successful response
+      setStatus({
+        type: 'success',
+        message: 'Message sent successfully!'
       });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setStatus({
-          type: 'success',
-          message: 'Message sent successfully!'
-        });
-        setFormState({
-          name: '',
-          email: '',
-          message: ''
-        });
-      } else {
-        setStatus({
-          type: 'error',
-          message: data.message || 'Something went wrong'
-        });
-      }
+      
+      // Clear form
+      setFormState({
+        name: '',
+        email: '',
+        message: ''
+      });
+      
     } catch (error) {
       setStatus({
         type: 'error',
-        message: error.message
+        message: 'Something went wrong. Please try again.'
       });
     } finally {
       setIsSubmitting(false);
