@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Github, Linkedin, Mail,  Globe } from 'lucide-react';
+import { Download, Github, Linkedin, Mail,  Globe ,Menu,X} from 'lucide-react';
 import backgroundimage from '../assets/backgroundimage.avif';
 import profilepic from '../assets/myprofilepic_enhanced-Photoroom.png';
 import ecommercewebimage from '../assets/ecommerceweb.png';
@@ -23,6 +23,7 @@ const Portfolio = () => {
   const fullText = "A dedicated full-stack engineer with a passion for creating dynamic and efficient web applications. With expertise in frontend technologies like React and Tailwind CSS, coupled with backend skills in Node.js and database management, I bring ideas to life through clean, scalable code.";
   const [displayText, setDisplayText] = useState('');
   const [index, setIndex] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (index < fullText.length) {
@@ -47,6 +48,9 @@ const Portfolio = () => {
       });
     }
   };
+  const toggleMenu = () => {
+  setIsMenuOpen(!isMenuOpen);
+};
 
   // Intersection Observer for active section
   useEffect(() => {
@@ -130,23 +134,56 @@ const Portfolio = () => {
 
       {/* Navigation */}
        <nav className="bg-slate-900/95 text-white py-4 px-6 fixed w-full z-50">
-        <div className="max-w-9xl mx-auto flex justify-between items-center">
-          <div className="text-xl font-bold">Portfolio</div>
-          <div className="space-x-6">
-            {['home', 'about', 'projects', 'contact'].map((section) => (
-              <button
-                key={section}
-                onClick={() => scrollToSection(section)}
-                className={`hover:text-blue-400 transition-colors capitalize ${
-                  activeSection === section ? 'text-blue-400' : ''
-                }`}
-              >
-                {section}
-              </button>
-            ))}
-          </div>
-        </div>
-      </nav>
+  <div className="max-w-9xl mx-auto flex justify-between items-center">
+    <div className="text-xl font-bold">Portfolio</div>
+    
+    {/* Hamburger Menu Button - Only visible on small screens */}
+    <button 
+      className="md:hidden p-2 hover:bg-slate-800 rounded-lg transition-colors"
+      onClick={toggleMenu}
+      aria-label="Toggle menu"
+    >
+      {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+    </button>
+
+    {/* Desktop Navigation Links */}
+    <div className="hidden md:flex space-x-6">
+      {['home', 'about', 'projects', 'contact'].map((section) => (
+        <button
+          key={section}
+          onClick={() => scrollToSection(section)}
+          className={`hover:text-blue-400 transition-colors capitalize ${
+            activeSection === section ? 'text-blue-400' : ''
+          }`}
+        >
+          {section}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {/* Mobile Navigation Menu */}
+  <div className={`md:hidden absolute top-full left-0 w-full bg-slate-900/95 transition-all duration-300 ${
+    isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 invisible'
+  }`}>
+    <div className="flex flex-col space-y-4 px-6 py-4">
+      {['home', 'about', 'projects', 'contact'].map((section) => (
+        <button
+          key={section}
+          onClick={() => {
+            scrollToSection(section);
+            setIsMenuOpen(false);
+          }}
+          className={`text-left hover:text-blue-400 transition-colors capitalize ${
+            activeSection === section ? 'text-blue-400' : ''
+          }`}
+        >
+          {section}
+        </button>
+      ))}
+    </div>
+  </div>
+</nav>
 
       {/* Main Content */}
       <div className="flex-grow pt-16 relative z-10" id='home'>
@@ -404,78 +441,9 @@ const Portfolio = () => {
         </div>
       </div>
 <hr className="border-white-700 max-w-3xl mx-auto shadow-md shadow-white-800 " />
+
 {/* contactform section */}
 <ContactForm></ContactForm>
-        {/* Contact Page Content */}
-      {/* <div className="flex-grow relative z-1 pt-20" id='contact'>
-        <div className="max-w-7xl mx-auto px-6 py-0">
-          <div className="text-center mb-12 opacity-0 animate-fade-up">
-            <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
-            <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-              Whether you're interested in collaboration opportunities, have questions about my work, or just want to connect, I'm always eager to engage in meaningful conversations. As a full-stack developer, I'm particularly excited to discuss innovative web solutions, potential projects, or share insights about technology. You can reach out through this form or connect with me directly on LinkedIn. I strive to respond to all messages within 24-48 hours and look forward to hearing your ideas, questions, or opportunities to create something amazing together.
-            </p>
-          </div>
-
-          <form 
-            onSubmit={handleSubmit}
-            className="relative group opacity-0 animate-slide-up"
-          >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/50 to-purple-500/50 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000"></div>
-            <div className="relative bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg shadow-xl space-y-6">
-              <div className="space-y-2">
-                <label htmlFor="name" className="block text-gray-200 font-medium">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formState.name}
-                  onChange={handleChange}
-                  className="w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Your Name"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="email" className="block text-gray-200 font-medium">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                  className="w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  placeholder="Your Email"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label htmlFor="message" className="block text-gray-200 font-medium">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  value={formState.message}
-                  onChange={handleChange}
-                  className="w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  rows="6"
-                  placeholder="Your Message"
-                ></textarea>
-              </div>
-
-              <button
-                type="submit"
-                className="group w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center gap-2"
-              >
-                <span>Send Message</span>
-                <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-      </div> */}
 
       {/* Footer */}
       <footer className="bg-slate-900/95 text-white py-8 relative z-10">
