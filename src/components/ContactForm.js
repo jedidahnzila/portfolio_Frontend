@@ -31,13 +31,24 @@ const ContactForm = () => {
       ...prev,
       [id]: value
     }));
+    // Clear error messages when user starts typing
+    if (status.type === 'error') {
+      setStatus({ type: '', message: '' });
+    }
   };
 
   const validateForm = () => {
+    // Name validation
     if (!formState.name.trim()) {
       setStatus({ type: 'error', message: 'Name is required' });
       return false;
     }
+    if (formState.name.length > 100) {
+      setStatus({ type: 'error', message: 'Name must be less than 100 characters' });
+      return false;
+    }
+
+    // Email validation
     if (!formState.email.trim()) {
       setStatus({ type: 'error', message: 'Email is required' });
       return false;
@@ -47,48 +58,86 @@ const ContactForm = () => {
       setStatus({ type: 'error', message: 'Please enter a valid email' });
       return false;
     }
+    if (formState.email.length > 255) {
+      setStatus({ type: 'error', message: 'Email must be less than 255 characters' });
+      return false;
+    }
+
+    // Message validation
     if (!formState.message.trim()) {
       setStatus({ type: 'error', message: 'Message is required' });
       return false;
     }
+    if (formState.message.length > 1000) {
+      setStatus({ type: 'error', message: 'Message must be less than 1000 characters' });
+      return false;
+    }
+
     return true;
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setIsSubmitting(true);
-    setStatus({ type: '', message: '' });
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    console.log('Form validation failed');
+    return;
+  }
+  
+  setIsSubmitting(true);
+  setStatus({ type: '', message: '' });
 
-    // Simulate API call with a delay
-    try {
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Simulate successful response
-      setStatus({
-        type: 'success',
-        message: 'Message sent successfully!'
-      });
-      
-      // Clear form
-      setFormState({
-        name: '',
-        email: '',
-        message: ''
-      });
-      
-    } catch (error) {
-      setStatus({
-        type: 'error',
-        message: 'Something went wrong. Please try again.'
-      });
-    } finally {
-      setIsSubmitting(false);
+  try {
+    console.log('Attempting to connect to:', 'http://localhost:8000/api/contact');
+    console.log('Submitting form data:', formState);
+    
+    const response = await fetch('http://localhost:8000/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      mode: 'cors',  // Explicitly set CORS mode
+      credentials: 'include',  // Include credentials if needed
+      body: JSON.stringify(formState)
+    });
+
+    console.log('Response received:', response.status);
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
     }
-  };
+    
+    const data = await response.json();
+    console.log('Success response:', data);
+    
+    setStatus({
+      type: 'success',
+      message: data.message || 'Message sent successfully!'
+    });
+    
+    setFormState({
+      name: '',
+      email: '',
+      message: ''
+    });
+    
+  } catch (error) {
+    console.error('Detailed error information:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
+    
+    setStatus({
+      type: 'error',
+      message: 'Unable to send message. Please try again later.'
+    });
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="flex-grow relative z-1 pt-20" id="contact">
@@ -96,11 +145,15 @@ const ContactForm = () => {
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-white mb-4">Get in Touch</h1>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto leading-relaxed">
-            Whether you're interested in collaboration opportunities, have questions about my work, or just want to connect, I'm always eager to engage in meaningful conversations. As a full-stack developer, I'm particularly excited to discuss innovative web solutions, potential projects, or share insights about technology.
+            Whether you're interested in collaboration opportunities, have questions about my work, 
+            or just want to connect, I'm always eager to engage in meaningful conversations. 
+            As a full-stack developer, I'm particularly excited to discuss innovative web solutions, 
+            potential projects, or share insights about technology.
           </p>
         </div>
 
         <div className="relative">
+          {/* Status Message */}
           {status.message && (
             <div 
               className={`absolute -top-16 right-0 z-10 w-full max-w-md transform transition-all duration-500 ease-in-out ${
@@ -122,8 +175,10 @@ const ContactForm = () => {
             </div>
           )}
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="relative">
             <div className="relative bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg shadow-xl space-y-6">
+              {/* Name Field */}
               <div className="space-y-2">
                 <label htmlFor="name" className="block text-gray-200 font-medium">
                   Name
@@ -134,12 +189,15 @@ const ContactForm = () => {
                   value={formState.name}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className={`w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  className={`w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white 
+                    focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all 
+                    ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                   placeholder="Your Name"
+                  maxLength={100}
                 />
               </div>
+
+              {/* Email Field */}
               <div className="space-y-2">
                 <label htmlFor="email" className="block text-gray-200 font-medium">
                   Email
@@ -150,12 +208,15 @@ const ContactForm = () => {
                   value={formState.email}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className={`w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  className={`w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white 
+                    focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all 
+                    ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                   placeholder="Your Email"
+                  maxLength={255}
                 />
               </div>
+
+              {/* Message Field */}
               <div className="space-y-2">
                 <label htmlFor="message" className="block text-gray-200 font-medium">
                   Message
@@ -165,17 +226,23 @@ const ContactForm = () => {
                   value={formState.message}
                   onChange={handleChange}
                   disabled={isSubmitting}
-                  className={`w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ${
-                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  className={`w-full bg-white/10 border border-gray-600 rounded-lg p-3 text-white 
+                    focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all 
+                    ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                   rows="6"
                   placeholder="Your Message"
+                  maxLength={1000}
                 ></textarea>
               </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="group w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white 
+                  px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all 
+                  duration-300 flex items-center justify-center gap-2 disabled:opacity-50 
+                  disabled:cursor-not-allowed"
               >
                 <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                 <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
