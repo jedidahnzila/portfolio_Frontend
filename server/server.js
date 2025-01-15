@@ -27,9 +27,11 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-const PORT = 8000;  
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  
+// eslint-disable-next-line no-undef
+app.listen(env.PORT, () => {
+  // eslint-disable-next-line no-undef
+  console.log(`Server is running on port ${env.PORT}`);
 });
 
 // Convert pool to use promises

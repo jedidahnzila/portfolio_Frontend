@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, XCircle } from 'lucide-react';
+const apiBaseURL = process.env.REACT_APP_API_URL || "http://localhost:8000";
 
 const ContactForm = () => {
   const [formState, setFormState] = useState({
@@ -88,10 +89,10 @@ const ContactForm = () => {
   setStatus({ type: '', message: '' });
 
   try {
-    console.log('Attempting to connect to:', 'http://localhost:8000/api/contact');
+    console.log('Attempting to connect to:', `${apiBaseURL}/api/contact`);
     console.log('Submitting form data:', formState);
     
-    const response = await fetch('http://localhost:8000/api/contact', {
+    const response = await fetch(`${apiBaseURL}/api/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
