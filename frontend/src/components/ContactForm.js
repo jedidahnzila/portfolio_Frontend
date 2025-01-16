@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, XCircle } from 'lucide-react';
-const backend_url = process.env.BACKEND_URL;
 
 const ContactForm = () => {
   const [formState, setFormState] = useState({
@@ -16,6 +15,7 @@ const ContactForm = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Clear success message after 5 seconds
   useEffect(() => {
     if (status.type === 'success') {
       const timer = setTimeout(() => {
@@ -80,42 +80,30 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
   e.preventDefault();
   
-  if (!validateForm()) {
-    console.log('Form validation failed');
-    return;
-  }
-  
+  if (!validateForm()) return;
+
   setIsSubmitting(true);
   setStatus({ type: '', message: '' });
 
   try {
-    console.log('Attempting to connect to:', `${backend_url}/api/contact`);
-    console.log('Submitting form data:', formState);
-    
-    const response = await fetch(`${backend_url}/api/contact`, {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       },
-      mode: 'cors',  // Explicitly set CORS mode
-      credentials: 'include',  // Include credentials if needed
       body: JSON.stringify(formState)
     });
-
-    console.log('Response received:', response.status);
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-    }
     
     const data = await response.json();
-    console.log('Success response:', data);
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Server error');
+    }
     
     setStatus({
       type: 'success',
-      message: data.message || 'Message sent successfully!'
+      message: data.message
     });
     
     setFormState({
@@ -125,12 +113,7 @@ const ContactForm = () => {
     });
     
   } catch (error) {
-    console.error('Detailed error information:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
-    });
-    
+    console.error('Error:', error);
     setStatus({
       type: 'error',
       message: 'Unable to send message. Please try again later.'
