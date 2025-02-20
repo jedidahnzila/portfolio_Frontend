@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, XCircle } from 'lucide-react';
+const backend_url = process.env.REACT_APP_BACKEND_URL;
 
 const ContactForm = () => {
   const [formState, setFormState] = useState({
@@ -86,7 +87,8 @@ const ContactForm = () => {
   setStatus({ type: '', message: '' });
 
   try {
-    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/contact`, {
+    // Use the complete URL instead of relying on environment variable
+    const response = await fetch(`${backend_url}/api/contact`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +124,6 @@ const ContactForm = () => {
     setIsSubmitting(false);
   }
 };
-
   return (
     <div className="flex-grow relative z-1 pt-20" id="contact">
       <div className="max-w-7xl mx-auto px-6 py-0">
