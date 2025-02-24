@@ -88,7 +88,7 @@ const ContactForm = () => {
 
   try {
     // Use the complete URL instead of relying on environment variable
-    const response = await fetch(`${backend_url}/api/contact`, {
+    const response = await fetch('https://my-portfolio-backend-srry.onrender.com/api/contact', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
