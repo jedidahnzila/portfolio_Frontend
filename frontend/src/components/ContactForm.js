@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Send, CheckCircle2, XCircle } from 'lucide-react';
-const backend_url = process.env.REACT_APP_BACKEND_URL;
+const backend_url = process.env.REACT_APP_API_URL;
 
 const ContactForm = () => {
   const [formState, setFormState] = useState({
