@@ -3,6 +3,10 @@ import { Send, CheckCircle2, XCircle } from 'lucide-react';
 const backend_url = process.env.REACT_APP_API_URL;
 
 const ContactForm = () => {
+  console.log({backend_url});
+  useEffect(() => {
+  console.log("Backend URL:", process.env.REACT_APP_API_URL);
+}, []);
   const [formState, setFormState] = useState({
     name: '',
     email: '',
