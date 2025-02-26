@@ -84,16 +84,20 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
   e.preventDefault();
-  
+  console.log("Attempting to connect to:", process.env.REACT_APP_API_URL);
+  console.log("Submitting form data:", formState);
+
   if (!validateForm()) return;
 
   setIsSubmitting(true);
+  console.log("Submitting form data:", formState);
   setStatus({ type: '', message: '' });
 
   try {
     // Use the complete URL instead of relying on environment variable
+    console.log("Making fetch request to:", `${process.env.REACT_APP_API_URL}/api/contact`);
     const response = await fetch(`${backend_url}/api/contact`, {
-      method: 'POST',
+      method: 'POSTnpm',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
